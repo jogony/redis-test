@@ -24,7 +24,6 @@ public class UserService {
             userName = cacheName;
         } else {
             userName = externalApiService.getUserName(userId);
-            System.out.println("야");
             ops.set("nameKey" + userId, userName, 5, TimeUnit.SECONDS);
         }
         //String userName = externalApiService.getUserName(userId);

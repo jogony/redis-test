@@ -1,19 +1,29 @@
 package com.example.redis.config;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 import java.util.HashMap;
 
+@RequiredArgsConstructor
 @Configuration
 public class RedisCacheConfig {
+
+    private RedisProperties redisProperties;
+
+    public RedisConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
+    }
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
 
